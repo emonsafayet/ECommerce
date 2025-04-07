@@ -6,8 +6,8 @@ namespace Catalog.Core.Repositories
     {
         Task<IEnumerable<Product>> GetProducts();
         Task<Product> GetProduct (string id);
-        Task<IEnumerable<Product>> GetProductByName(string name);
-        Task<IEnumerable<Product>> GetProductByBrand(string name);
+        Task<IEnumerable<Product>> GetProductByName(string productName);
+        Task<IEnumerable<Product>> GetProductByBrand(string brandName);
         Task<Product>  CreateProduct (Product product); 
         Task<bool>  UpdateProduct (Product product);
         Task<bool>  DeleteProduct (string id);
