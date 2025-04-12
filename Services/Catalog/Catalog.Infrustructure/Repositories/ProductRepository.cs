@@ -55,7 +55,7 @@ namespace Catalog.Infrustructure.Repositories
             var updateResult = _context.Products.ReplaceOne(p => p.Id == product.Id, product);
             return updateResult.IsAcknowledged && updateResult.ModifiedCount > 0;
         }
-        async Task<IEnumerable<ProductBrands>> IBrandRepository.GetAllBrands()
+        async Task<IEnumerable<ProductBrand>> IBrandRepository.GetAllBrands()
         {
             return await _context.Brands
                 .Find(b => true)

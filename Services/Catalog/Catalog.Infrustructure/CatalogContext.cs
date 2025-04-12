@@ -9,7 +9,7 @@ namespace Catalog.Infrustructure
     {
         public IMongoCollection<Product> Products { get; }
 
-        public IMongoCollection<ProductBrands> Brands { get; }
+        public IMongoCollection<ProductBrand> Brands { get; }
 
         public IMongoCollection<ProductType> Types { get; }
 
@@ -18,7 +18,7 @@ namespace Catalog.Infrustructure
             var client = new MongoClient(configuration["DatabaseSettings:ConnectionString"]); 
             var database = client.GetDatabase(configuration["DatabaseSettings:DatabaseName"]);
             Products = database.GetCollection<Product>(configuration["DatabaseSettings:CollectionName"]);
-            Brands = database.GetCollection<ProductBrands>(configuration["DatabaseSettings:BrandsCollectionName"]);
+            Brands = database.GetCollection<ProductBrand>(configuration["DatabaseSettings:BrandsCollectionName"]);
             Types = database.GetCollection<ProductType>(configuration["DatabaseSettings:TypesCollectionName"]);
             BrandContextSeed.SeedData(Brands);
             TypeContextSeed.SeedData(Types);

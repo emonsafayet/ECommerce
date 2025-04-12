@@ -10,7 +10,7 @@ namespace Catalog.Core.Entities
         public string Summary { get; set; }
         public string Description { get; set; }
         public string ImageFile { get; set; }
-        public ProductBrands Brands { get; set; }
+        public ProductBrand Brands { get; set; }
         public ProductType Types { get; set; }
 
         [BsonRepresentation(BsonType.Decimal128)]
