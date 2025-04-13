@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Catalog.Application.Commands;
 using Catalog.Application.Reponses;
 using Catalog.Core.Entities;
 
@@ -11,7 +12,7 @@ namespace Catalog.Application.Mappers
             CreateMap<ProductBrand, BrandResponse>().ReverseMap();
             CreateMap<Product, ProductResponse>().ReverseMap();
             CreateMap<ProductType, TypesReponse>().ReverseMap();
+            CreateMap<Product,CreateProductCommand>().ReverseMap();
         }
-    }
-    
+    } 
 }
