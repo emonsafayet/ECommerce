@@ -26,13 +26,13 @@ namespace Catalog.Infrustructure.Repositories
                 .Find(p => true)
                 .ToListAsync();
         }
-        async Task<IEnumerable<Product>> IProductRepository.GetProductByBrand(string productName)
+        async Task<IEnumerable<Product>> IProductRepository.GetProductsByBrand(string productName)
         {
             return await _context.Products
                 .Find(p => p.Name.ToLower() == productName.ToLower())
                 .ToListAsync();
         }
-        async Task<IEnumerable<Product>> IProductRepository.GetProductByName(string brandName)
+        async Task<IEnumerable<Product>> IProductRepository.GetProductsByName(string brandName)
         {
             return await _context
                .Products
