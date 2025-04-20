@@ -1,5 +1,4 @@
 ﻿using Catalog.Application.Commands;
-using Catalog.Application.Handlers;
 using Catalog.Application.Queries;
 using Catalog.Application.Reponses;
 using MediatR;
@@ -56,8 +55,8 @@ namespace Catalog.API.Controllers
 
         [HttpGet]
         [Route("GetAllTypes")]
-        [ProducesResponseType(typeof(IList<TypesReponse>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<TypesReponse>> GetAllTypes()
+        [ProducesResponseType(typeof(IList<TypesResponse>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<TypesResponse>> GetAllTypes()
         {
             var query = new GetAllTypesQuery();
             var result = await _mediator.Send(query);
@@ -65,14 +64,14 @@ namespace Catalog.API.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{brand}", Name = "GetProductByBrandName")]
+        [Route("[action]/{brand}", Name = "GetProductsByBrandName")]
         [ProducesResponseType(typeof(IList<ProductResponse>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IList<ProductResponse>>> GetProductByBrandName(string brandName)
+        public async Task<ActionResult<IList<ProductResponse>>> GetProductsByBrandName(string brand)
         {
-            var query = new GetProductsByBrandQuery(brandName);
+            var query = new GetProductByBrandQuery(brand);
             var result = await _mediator.Send(query);
             return Ok(result);
-        }
+        } 
 
         [HttpPost]
         [Route("CreateProduct")]

@@ -1,7 +1,7 @@
 ﻿using Catalog.Core.Entities;
 using MongoDB.Driver;
 
-namespace Catalog.Infrustructure
+namespace Catalog.Infrastructure.Data
 {
     public interface ICatalogContext
     {

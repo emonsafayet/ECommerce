@@ -1,8 +1,9 @@
 ﻿using Catalog.Core.Entities;
 using Catalog.Core.Repositories;
+using Catalog.Infrastructure.Data;
 using MongoDB.Driver;
 
-namespace Catalog.Infrustructure.Repositories
+namespace Catalog.Infrastructure.Repositories
 {
     public class ProductRepository : IProductRepository, IBrandRepository, ITypesRepository
     {
@@ -26,17 +27,18 @@ namespace Catalog.Infrustructure.Repositories
                 .Find(p => true)
                 .ToListAsync();
         }
-        async Task<IEnumerable<Product>> IProductRepository.GetProductsByBrand(string productName)
+        async Task<IEnumerable<Product>> IProductRepository.GetProductsByBrand(string brandName)
         {
-            return await _context.Products
-                .Find(p => p.Name.ToLower() == productName.ToLower())
+            return await _context
+                .Products
+                .Find(p => p.Brands.Name.ToLower() == brandName.ToLower())
                 .ToListAsync();
         }
-        async Task<IEnumerable<Product>> IProductRepository.GetProductsByName(string brandName)
+        async Task<IEnumerable<Product>> IProductRepository.GetProductsByName(string name)
         {
             return await _context
                .Products
-               .Find(p => p.Brands.Name.ToLower() == brandName.ToLower())
+               .Find(p => p.Name.ToLower() == name.ToLower())
                .ToListAsync();
         }
         async Task<Product> IProductRepository.CreateProduct(Product product)
