@@ -1,10 +1,14 @@
-﻿using MongoDB.Bson;
+﻿using Catalog.Core.Entities;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
 
-namespace Catalog.Core.Entities
+namespace Catalog.Application.Reponses
 {
-    public class Product : BaseEntity
+    public class ProductResponse
     {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
         [BsonElement("Name")]
         public string Name { get; set; }
         public string Summary { get; set; }

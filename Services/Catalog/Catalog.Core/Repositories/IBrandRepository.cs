@@ -4,6 +4,6 @@ namespace Catalog.Core.Repositories
 {
     public interface IBrandRepository
     {
-        Task<IEnumerable<ProductBrands>> GetAllBrands();
+        Task<IEnumerable<ProductBrand>> GetAllBrands();
     }
 }
