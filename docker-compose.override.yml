@@ -44,13 +44,14 @@ services:
     depends_on:
       - catalogdb
     ports:
-      - "8083:8080"  
+      - "8005:8080"  
   
   basket.api:
     container_name: basket.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "CacheSettings__ConnectionString=basketdb:6379"      
+      - "CacheSettings__ConnectionString=basketdb:6379"  
+      - "GrpcSettings__DiscountUrl=http://discount.api:8080" 
     depends_on:
       - basketdb      
     ports:
