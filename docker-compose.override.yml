@@ -1,5 +1,4 @@
 services:
-
   catalogdb:
     container_name: catalogdb
     restart: always
@@ -13,7 +12,7 @@ services:
     restart: always
     ports:
       - "6379:6379" 
-  
+   
   discountdb:
     container_name: discountdb
     environment:
@@ -31,6 +30,21 @@ services:
       timeout: 5s
       retries: 5
 
+  orderdb:
+    container_name: orderdb
+    environment:
+      SA_PASSWORD: "12345678"
+      ACCEPT_EULA: "Y"
+    restart: always
+    ports:
+      - "1433:1433"
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P '12345678' -Q 'select 1'"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+
+
   catalog.api:
     container_name: catalog.api
     environment:
@@ -39,18 +53,17 @@ services:
       - "DatabaseSettings__DatabaseName=CatalogDb"
       - "DatabaseSettings__CollectionName=Products"
       - "DatabaseSettings__BrandsCollection=Brands"
-      - "DatabaseSettings__TypesCollection=Types"  
-      - "ElasticConfiguration__Uri=http://elasticsearch:9200" 
+      - "DatabaseSettings__TypesCollection=Types"      
     depends_on:
       - catalogdb
     ports:
-      - "8005:8080"  
-  
+      - "8005:8080"
+
   basket.api:
     container_name: basket.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "CacheSettings__ConnectionString=basketdb:6379"  
+      - "CacheSettings__ConnectionString=basketdb:6379"
       - "GrpcSettings__DiscountUrl=http://discount.api:8080" 
     depends_on:
       - basketdb      
@@ -68,6 +81,19 @@ services:
     ports:
       - "8002:8080"
 
+  ordering.api:
+    container_name: ordering.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings__OrderingConnectionString=Server=orderdb;Database=OrderDb;User Id=sa;Password=12345678;TrustServerCertificate=True"    
+    depends_on:
+      - orderdb      
+    ports:
+      - "8003:8080" 
+    command: >  
+      /bin/sh -c "dotnet ef dotnet update -p ../Ordering.Infrastructure -s ../Ordering.API && dotnet Ordering.API.dll"
+
+  
   pgadmin:
     container_name: pgadmin
     environment:
@@ -77,7 +103,8 @@ services:
     ports:
       - "5050:80"
     volumes:
-      - pgadmin_data:/root/.pgadmin 
+      - pgadmin_data:/root/.pgadmin
+
 
   portainer:
     container_name: portainer
@@ -87,7 +114,8 @@ services:
       - "9090:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data 
+      - portainer_data:/data
+  
+  
 
-
-
+ 
